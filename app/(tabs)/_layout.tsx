@@ -1,37 +1,50 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import React, { Key } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import HomeScreen from '@/components/HomeScreen';
+import YesNoScreen from '@/components/YesnoPage';
+import QuestionScreen from '@/components/QuestionScreen';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+const Tab = createBottomTabNavigator();
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const App = () => {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName: any;
+            if (route.name === 'Home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'Search') {
+              iconName = focused ? 'search' : 'search-outline';
+            } else if (route.name === 'Sports') {
+              iconName = focused ? 'football' : 'football-outline';
+            } else if (route.name === 'Portfolio') {
+              iconName = focused ? 'pie-chart' : 'pie-chart-outline';
+            } else if (route.name === 'Wallet') {
+              iconName = focused ? 'wallet' : 'wallet-outline';
+            }
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Search" component={HomeScreen} />
+        <Tab.Screen name="Sports" component={HomeScreen} />
+        <Tab.Screen name="Portfolio" component={HomeScreen} />
+        <Tab.Screen name="Wallet" component={HomeScreen} />
+      </Tab.Navigator>
   );
-}
+};
+
+
+//Below code is to see other screens
+
+// const App = () => {
+//   return (
+//      <QuestionScreen/>
+//     <YesNoScreen/>
+//   )
+// }
+export default App;
